@@ -1,0 +1,17 @@
+FROM mhart/alpine-node:16
+
+WORKDIR /app
+ENV NODE_ENV=development
+
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY package.json .
+
+RUN yarn install
+
+COPY . .
+
+RUN yarn prisma:generate
+
+CMD ["yarn", "dev"]

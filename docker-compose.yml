@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    container_name: test-db
+    ports:
+      - 5432:5432
+    volumes: 
+      - ./data//postgres-data:/var/lib/postgresql/data
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    container_name: test-api
+    ports:
+      - 4000:4000
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
+      - NODE_ENV=development
+      - PORT=4000
+    
