@@ -1,19 +1,32 @@
 export const typeDefs = `#graphql
-type Profile {
-  id: Int
-  bio: String
-  user: User
-  userId: Int
-}
+  type Profile {
+    id: Int!
+    bio: String
+    userId: Int!
+  }
 
-type User {
-  id: Int
-  email: String!
-  name: String
-  profile: Profile
-}
+  type Post {
+    id: Int!
+    title: String!
+    content: String
+    authorId: Int!
+    createdAt: String!
+    updatedAt: String!
+    published: Boolean!
+    author: User
+  }
 
-type Query {
-  users: [User]
-}
+  type User {
+    id: Int!
+    email: String!
+    name: String
+    profile: Profile
+    posts: [Post]
+  }
+
+  type Query {
+    users: [User]
+    posts: [Post]
+    publishedPosts: [Post]
+  }
 `;

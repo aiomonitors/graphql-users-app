@@ -1,3 +1,4 @@
+import { PostsResolver } from '@apollo/resolvers/Posts';
 import { QueryResolver } from '@apollo/resolvers/Query';
 import { UserResolver } from '@apollo/resolvers/User';
 import { ApolloServer } from '@apollo/server';
@@ -7,6 +8,7 @@ import { typeDefs } from 'apollo/typeDefs';
 const resolvers = {
   ...QueryResolver.resolver(),
   ...UserResolver.resolver(),
+  ...PostsResolver.resolver(),
 };
 
 // The ApolloServer constructor requires two parameters: your schema
