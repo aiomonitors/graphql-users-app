@@ -54,9 +54,21 @@ export class QueryResolver {
     return posts;
   }
 
+  static getOffsetAndLimit<T extends IPaginatedQueryArguments>(
+    args: T
+  ): {
+    offsetToSearch: Date;
+    limitToSearch: number;
+  } {
+    const { offset, limit } = args;
+    return {
+      offsetToSearch: offset ? new Date(+offset) : new Date(),
+      limitToSearch: limit ?? 10,
+    };
+  }
+
   static getPostFeed: IPaginatedQuery<IPaginatedPosts> = async (parent, { offset, limit }) => {
-    const offsetToSearch = offset ? new Date(+offset) : new Date();
-    const limitToSearch = limit ?? 10;
+    const { offsetToSearch, limitToSearch } = QueryResolver.getOffsetAndLimit({ offset, limit });
 
     const posts = await prisma.post.findMany({
       orderBy: {
@@ -85,10 +97,9 @@ export class QueryResolver {
 
   static getUserPostFeed: IPaginatedQuery<IPaginatedPosts, IUserPaginatedPosts> = async (
     parent,
-    { offset, limit, userId }
+    { userId, ...rest }
   ) => {
-    const offsetToSearch = offset ? new Date(+offset) : new Date();
-    const limitToSearch = limit ?? 10;
+    const { offsetToSearch, limitToSearch } = QueryResolver.getOffsetAndLimit(rest);
 
     const posts = await prisma.post.findMany({
       orderBy: {
