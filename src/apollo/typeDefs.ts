@@ -24,9 +24,16 @@ export const typeDefs = `#graphql
     posts: [Post]
   }
 
+  type PaginatedPosts {
+    nextOffset: String
+    posts: [Post]
+  }
+
   type Query {
     users: [User]
     posts: [Post]
     publishedPosts: [Post]
+    latestPosts: [Post]
+    getPostFeed(offset: String, limit: Int): PaginatedPosts
   }
 `;
