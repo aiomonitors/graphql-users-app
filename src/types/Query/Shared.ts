@@ -3,7 +3,7 @@ export type IPaginatedQueryArguments = {
   limit: number;
 };
 
-export type IPaginatedQuery<R extends unknown> = (
+export type IPaginatedQuery<R extends unknown, T = IPaginatedQueryArguments> = (
   parent: null,
-  args: IPaginatedQueryArguments
+  args: T
 ) => Promise<R>;

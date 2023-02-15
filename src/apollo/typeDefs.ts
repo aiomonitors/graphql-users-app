@@ -35,5 +35,6 @@ export const typeDefs = `#graphql
     publishedPosts: [Post]
     latestPosts: [Post]
     getPostFeed(offset: String, limit: Int): PaginatedPosts
+    getUserPostFeed(offset: String, limit: Int, userId: Int!): PaginatedPosts
   }
 `;
